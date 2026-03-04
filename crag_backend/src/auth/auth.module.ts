@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { AppConfig } from 'config/env';
 import type { StringValue } from 'ms';
+import { OrganizationModule } from 'src/organization/organization.module';
 import { UsersModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -16,6 +17,7 @@ import { LocalStrategy } from './strategies/local.strategy';
 @Module({
   imports: [
     UsersModule,
+    OrganizationModule,
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],

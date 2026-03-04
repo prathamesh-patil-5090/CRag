@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { AppConfig } from 'config/env';
 import type { StringValue } from 'ms';
+import { OrganizationService } from 'src/organization/organization.service';
 import { AuthProvider, User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { RegisterDto } from './dto/register.dto';
@@ -28,6 +29,7 @@ export interface AuthTokens {
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
+    private readonly orgService: OrganizationService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
@@ -37,7 +39,13 @@ export class AuthService {
   }
 
   async issueTokens(user: Partial<User>): Promise<AuthTokens> {
-    const payload = { sub: user.id, email: user.email };
+    const payload = {
+      sub: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      username: user.username,
+    };
 
     const access_token = this.jwtService.sign(payload);
 
@@ -70,6 +78,10 @@ export class AuthService {
   async register(dto: RegisterDto): Promise<AuthTokens> {
     const existing = await this.usersService.findByEmail(dto.email);
     if (existing) throw new ConflictException('Email already in use');
+
+    const doesOrgExist = await this.orgService.findOne(dto.org.orgId);
+    if (!doesOrgExist)
+      throw new ConflictException('Organization does not exists');
 
     const hashed = await bcrypt.hash(dto.password, this.cfg().bcryptRounds);
     const user = await this.usersService.create({

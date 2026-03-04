@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Memberships } from './membership.entity';
 
 export enum AuthProvider {
   LOCAL = 'local',
@@ -17,19 +19,19 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   firstName: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   lastName: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: false })
   email: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   username: string;
 
-  @Column({ nullable: true, select: false })
+  @Column({ nullable: false, select: false })
   password: string;
 
   @Column({ type: 'enum', enum: AuthProvider, default: AuthProvider.LOCAL })
@@ -46,4 +48,7 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Memberships, (membership) => membership.user)
+  memberships: Memberships[];
 }

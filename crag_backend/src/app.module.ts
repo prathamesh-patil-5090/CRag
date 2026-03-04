@@ -5,7 +5,7 @@ import appConfig, { AppConfig } from 'config/env';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { User } from './users/entities/user.entity';
+import { OrganizationModule } from './organization/organization.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -22,14 +22,15 @@ import { UsersModule } from './users/users.module';
         return {
           type: 'postgres',
           url: cfg.databaseUrl,
-          entities: [User],
-          synchronize: true,
+          autoLoadEntities: true,
+          synchronize: false,
           ssl: { rejectUnauthorized: false },
         };
       },
     }),
     AuthModule,
     UsersModule,
+    OrganizationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
