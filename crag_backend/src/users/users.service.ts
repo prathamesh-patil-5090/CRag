@@ -49,7 +49,6 @@ export class UsersService {
   }
 
   async updateRefreshToken(id: string, token: string | null): Promise<void> {
-    // Use raw query so TypeORM accepts NULL without type conflicts
     await this.repo.query(
       `UPDATE "users" SET "hashedRefreshToken" = $1 WHERE "id" = $2`,
       [token, id],

@@ -21,6 +21,7 @@ export class OrganizationService {
     return this.repo.find();
   }
 
+
   findOne(id: string) {
     return this.repo.findOneBy({ orgId: id });
   }

@@ -38,7 +38,7 @@ export class AuthService {
     return this.configService.get<AppConfig>('app')!;
   }
 
-  async issueTokens(user: Partial<User>): Promise<AuthTokens> {
+  async issueTokens(user: Partial<User>) {
     const payload = {
       sub: user.id,
       firstName: user.firstName,
@@ -47,9 +47,9 @@ export class AuthService {
       username: user.username,
     };
 
-    const access_token = this.jwtService.sign(payload);
+    const access_token: string = this.jwtService.sign(payload);
 
-    const refresh_token = this.jwtService.sign(payload, {
+    const refresh_token: string = this.jwtService.sign(payload, {
       secret: this.cfg().jwt.refreshSecret,
       expiresIn: this.cfg().jwt.refreshExpiresIn as StringValue,
     });
@@ -57,7 +57,7 @@ export class AuthService {
     const hashed = await bcrypt.hash(refresh_token, this.cfg().bcryptRounds);
     await this.usersService.updateRefreshToken(user.id!, hashed);
 
-    return { access_token, refresh_token };
+    return { access_token, refresh_token } as AuthTokens;
   }
 
   async validateUser(
@@ -124,12 +124,20 @@ export class AuthService {
     const providerId = String(profile.id);
 
     let user = await this.usersService.findByProviderId(provider, providerId);
-    if (user) return user;
+    if (user) {
+      console.log(profile);
+      return user;
+    }
 
+    const firstName: string =
+      profile.displayName?.split(' ')[0] ?? profile.username ?? '';
+    const lastName: string = profile.displayName?.split(' ')[1] ?? '';
     const email: string =
       profile.emails?.[0]?.value ?? `${providerId}@${provider}.oauth`;
     const username: string =
-      profile.displayName ?? profile.username ?? email.split('@')[0];
+      profile.emails?.[0].value.split('@')[0] ??
+      profile.username ??
+      email.split('@')[0];
 
     const existing = await this.usersService.findByEmail(email);
     if (existing) {
@@ -140,6 +148,8 @@ export class AuthService {
     }
 
     user = await this.usersService.create({
+      firstName,
+      lastName,
       email,
       username,
       provider,
