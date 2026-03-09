@@ -12,6 +12,12 @@ export class Organization {
   @Column({ unique: true })
   orgMail: string;
 
+  @Column({ nullable: true })
+  password: string;
+
+  @Column({ type: 'varchar', nullable: true, select: false })
+  hashedRefreshToken: string | null;
+
   @OneToMany(() => Memberships, (memberships) => memberships.organization)
   memberships: Memberships[];
 }

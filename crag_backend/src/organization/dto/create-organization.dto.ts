@@ -1,4 +1,4 @@
-import { IsEmpty, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmpty, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class CreateOrganizationDto {
   @IsEmpty()
@@ -11,4 +11,8 @@ export class CreateOrganizationDto {
   @IsString()
   @IsNotEmpty()
   orgMail: string;
+
+  @IsString()
+  @MinLength(8)
+  password: string;
 }

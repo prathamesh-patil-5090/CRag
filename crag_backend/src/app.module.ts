@@ -23,7 +23,7 @@ import { UsersModule } from './users/users.module';
           type: 'postgres',
           url: cfg.databaseUrl,
           autoLoadEntities: true,
-          synchronize: false,
+          synchronize: true,
           ssl: { rejectUnauthorized: false },
         };
       },

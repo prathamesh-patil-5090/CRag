@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { AppConfig } from 'config/env';
 import type { StringValue } from 'ms';
+import { MembershipService } from 'src/organization/membership.service';
 import { OrganizationService } from 'src/organization/organization.service';
 import { AuthProvider, User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
@@ -30,6 +31,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly orgService: OrganizationService,
+    private readonly memService: MembershipService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
@@ -61,23 +63,31 @@ export class AuthService {
   }
 
   async validateUser(
-    email: string,
+    identifier: string,
     password: string,
   ): Promise<Omit<User, 'password'> | null> {
-    const user = await this.usersService.findByEmail(email);
-    if (!user || !user.password) return null;
+    const id = identifier.trim();
+
+    const user = await this.usersService.findByIdentifier(id);
+    if (!user || !user.password)
+      throw new UnauthorizedException('Invalid Credentials');
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return null;
+    if (!isMatch) throw new UnauthorizedException('Invalid Credentials');
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _pw, ...result } = user;
     return result;
   }
 
   async register(dto: RegisterDto): Promise<AuthTokens> {
-    const existing = await this.usersService.findByEmail(dto.email);
-    if (existing) throw new ConflictException('Email already in use');
+    const existingEmail = await this.usersService.findByEmail(dto.email);
+    if (existingEmail) throw new ConflictException('Email already in use');
+
+    const existingUsername = await this.usersService.findByUsername(
+      dto.username,
+    );
+    if (existingUsername)
+      throw new ConflictException('Username already in use');
 
     const doesOrgExist = await this.orgService.findOne(dto.org.orgId);
     if (!doesOrgExist)
@@ -90,6 +100,12 @@ export class AuthService {
       password: hashed,
       provider: AuthProvider.LOCAL,
     });
+
+    await this.memService.assignMembershipToUser(
+      user.id,
+      'MEMBER',
+      dto.org.orgId,
+    );
 
     return this.issueTokens(user);
   }

@@ -25,11 +25,31 @@ export class UsersService {
     return this.repo.findOne({ where: { id } });
   }
 
+  findByIdentifier(identifier: string): Promise<User | null> {
+    const idNorm = identifier.trim().toLowerCase();
+    return this.repo
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('LOWER(user.email) = :idNorm OR LOWER(user.username) = :idNorm', {
+        idNorm,
+      })
+      .orderBy(`(LOWER(user.email) = :idNorm)`, 'DESC')
+      .setParameter('idNorm', idNorm)
+      .getOne();
+  }
+
+  findByUsername(username: string): Promise<User | null> {
+    return this.repo
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('LOWER(user.username) = :username', { username })
+      .getOne();
+  }
   findByEmail(email: string): Promise<User | null> {
     return this.repo
       .createQueryBuilder('user')
       .addSelect('user.password')
-      .where('user.email = :email', { email })
+      .where('LOWER(user.email) = :email', { email })
       .getOne();
   }
 
