@@ -1,0 +1,1973 @@
+{
+  "v": 11,
+  "name": "CRag Backend API",
+  "folders": [
+    {
+      "v": 11,
+      "name": "1. Auth",
+      "folders": [],
+      "requests": [
+        {
+          "v": "17",
+          "name": "Register User",
+          "method": "POST",
+          "endpoint": "http://localhost:3000/auth/register",
+          "params": [],
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"username\": \"johndoe\",\n  \"password\": \"Password123!\",\n  \"org\": { \"orgId\": \"52e9a431-232b-4bc3-a569-a7c60400a238\" }\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "Register User": {
+              "status": "201 Created",
+              "code": 201,
+              "headers": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:14:21 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMDYxLCJleHAiOjE3NzMyMzg0NjF9.eSwhnzLViqFZrIDEeudtukIcVJ34NsvM41IohTeQECU; Path=/; HttpOnly; Secure; SameSite=Strict"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMDYxLCJleHAiOjE3NzM3NTY4NjF9.yekYPdi9D26ytKrzjXwQeRwJyXU8MpM41kD0oDOPd5I; Path=/; HttpOnly; Secure; SameSite=Strict"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"280-hr4BdGznpDTvZXWXH4F19/lElgE\""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "640"
+                }
+              ],
+              "body": "{\"access_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMDYxLCJleHAiOjE3NzMyMzg0NjF9.eSwhnzLViqFZrIDEeudtukIcVJ34NsvM41IohTeQECU\",\"refresh_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMDYxLCJleHAiOjE3NzM3NTY4NjF9.yekYPdi9D26ytKrzjXwQeRwJyXU8MpM41kD0oDOPd5I\"}",
+              "name": "Register User",
+              "originalRequest": {
+                "v": "6",
+                "method": "POST",
+                "endpoint": "http://localhost:3000/auth/register",
+                "headers": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": "application/json",
+                  "body": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"username\": \"johndoe\",\n  \"password\": \"Password123!\",\n  \"org\": { \"orgId\": \"52e9a431-232b-4bc3-a569-a7c60400a238\" }\n}"
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Register User",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Login User",
+          "method": "POST",
+          "endpoint": "http://localhost:3000/auth/login",
+          "params": [],
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"username\": \"user2@example.com\",\n  \"password\": \"Password123!\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "Login User": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "ETag",
+                  "value": "W/\"280-QjkK2C72LMLoyEeHni90c8oSxtM\""
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMTI4LCJleHAiOjE3NzMyMzg1Mjh9.B1QR-teoH7eSXd7LUC_13KZ8ziXwk1-sD-zbQQhhU7Q; Path=/; HttpOnly; Secure; SameSite=Strict"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMTI4LCJleHAiOjE3NzM3NTY5Mjh9.QwF7nwmJ2DKwUSsVij_ZzVKixIO9haGee55aIr2j5bI; Path=/; HttpOnly; Secure; SameSite=Strict"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "640"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:15:28 GMT"
+                }
+              ],
+              "body": "{\"access_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMTI4LCJleHAiOjE3NzMyMzg1Mjh9.B1QR-teoH7eSXd7LUC_13KZ8ziXwk1-sD-zbQQhhU7Q\",\"refresh_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMTI4LCJleHAiOjE3NzM3NTY5Mjh9.QwF7nwmJ2DKwUSsVij_ZzVKixIO9haGee55aIr2j5bI\"}",
+              "name": "Login User",
+              "originalRequest": {
+                "v": "6",
+                "method": "POST",
+                "endpoint": "http://localhost:3000/auth/login",
+                "headers": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": "application/json",
+                  "body": "{\n  \"username\": \"john.doe@example.com\",\n  \"password\": \"Password123!\"\n}"
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Login User",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Get Profile",
+          "method": "GET",
+          "endpoint": "http://localhost:3000/auth/profile",
+          "params": [],
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMTI4LCJleHAiOjE3NzMyMzg1Mjh9.B1QR-teoH7eSXd7LUC_13KZ8ziXwk1-sD-zbQQhhU7Q",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "Get Profile": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:15:53 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "76"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"4c-LhO3aIUDJ/DaJB7DunTnycIhd6k\""
+                }
+              ],
+              "body": "{\"id\":\"3f876f4e-6c38-465b-a4c9-0a6a22e18c68\",\"email\":\"john.doe@example.com\"}",
+              "name": "Get Profile",
+              "originalRequest": {
+                "v": "6",
+                "method": "GET",
+                "endpoint": "http://localhost:3000/auth/profile",
+                "headers": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMTI4LCJleHAiOjE3NzMyMzg1Mjh9.B1QR-teoH7eSXd7LUC_13KZ8ziXwk1-sD-zbQQhhU7Q",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Get Profile",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Refresh Token",
+          "method": "POST",
+          "endpoint": "http://localhost:3000/auth/refresh",
+          "params": [],
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMTI4LCJleHAiOjE3NzM3NTY5Mjh9.QwF7nwmJ2DKwUSsVij_ZzVKixIO9haGee55aIr2j5bI",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "Refresh Token": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:16:21 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "640"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"280-lbSVd/ZRSAQ8PyHTMVEAZhYTF0Q\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "body": "{\"access_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMTgxLCJleHAiOjE3NzMyMzg1ODF9.Rsb1jsTO-KGwBWfT5q9DLtiPND6uXRMM691cd-MmJ6Y\",\"refresh_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMTgxLCJleHAiOjE3NzM3NTY5ODF9.-CcZ7WcXDr08fkx-neT1caO738DaZ1Pg_UyiPGNQJVs\"}",
+              "name": "Refresh Token",
+              "originalRequest": {
+                "v": "6",
+                "method": "POST",
+                "endpoint": "http://localhost:3000/auth/refresh",
+                "headers": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMTI4LCJleHAiOjE3NzM3NTY5Mjh9.QwF7nwmJ2DKwUSsVij_ZzVKixIO9haGee55aIr2j5bI",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Refresh Token",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Logout",
+          "method": "POST",
+          "endpoint": "http://localhost:3000/auth/logout",
+          "params": [],
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMTI4LCJleHAiOjE3NzMyMzg1Mjh9.B1QR-teoH7eSXd7LUC_13KZ8ziXwk1-sD-zbQQhhU7Q",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "Logout": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "ETag",
+                  "value": "W/\"25-71uUsMgZY3FdZp9j1h5YMrBIOgg\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:16:39 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "37"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                }
+              ],
+              "body": "{\"message\":\"Logged out successfully\"}",
+              "name": "Logout",
+              "originalRequest": {
+                "v": "6",
+                "method": "POST",
+                "endpoint": "http://localhost:3000/auth/logout",
+                "headers": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyMTI4LCJleHAiOjE3NzMyMzg1Mjh9.B1QR-teoH7eSXd7LUC_13KZ8ziXwk1-sD-zbQQhhU7Q",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Logout",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "variables": [],
+      "description": null
+    },
+    {
+      "v": 11,
+      "name": "2. Organization",
+      "folders": [],
+      "requests": [
+        {
+          "v": "17",
+          "name": "Create Organization",
+          "method": "POST",
+          "endpoint": "http://localhost:3000/organization",
+          "params": [],
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"orgName\": \"Acme Corp 2\",\n  \"orgMail\": \"hello2@acmecorp.com\",\n  \"password\": \"OrgPassword123!\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "Create Organization": {
+              "status": "201 Created",
+              "code": 201,
+              "headers": [
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"65-YKi2ZXn00mLlgPDpzuZvSl+FXL4\""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:10:32 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "101"
+                }
+              ],
+              "body": "{\"orgId\":\"52e9a431-232b-4bc3-a569-a7c60400a238\",\"orgName\":\"Acme Corp\",\"orgMail\":\"hello@acmecorp.com\"}",
+              "name": "Create Organization",
+              "originalRequest": {
+                "v": "6",
+                "method": "POST",
+                "endpoint": "http://localhost:3000/organization",
+                "headers": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": "application/json",
+                  "body": "{\n  \"orgName\": \"Acme Corp\",\n  \"orgMail\": \"hello@acmecorp.com\",\n  \"password\": \"OrgPassword123!\"\n}"
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Create Organization",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Login Organization",
+          "method": "POST",
+          "endpoint": "http://localhost:3000/organization/login",
+          "params": [],
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"email\": \"hello@acmecorp.com\",\n  \"password\": \"OrgPassword123!\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "Login Organization": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:10:41 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "564"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"234-xubk0GMhn6CoJm1Q0yxmnUhRz+w\""
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdJZCI6IjUyZTlhNDMxLTIzMmItNGJjMy1hNTY5LWE3YzYwNDAwYTIzOCIsIm9yZ0VtYWlsIjoiaGVsbG9AYWNtZWNvcnAuY29tIiwib3JnTmFtZSI6IkFjbWUgQ29ycCIsImlhdCI6MTc3MzE1MTg0MSwiZXhwIjoxNzczMjM4MjQxfQ.Rjlf4kMwo4hfivdp99I41Z7RsgPGqFFssVbAVD5LjXY; Path=/; HttpOnly; Secure; SameSite=Strict"
+                },
+                {
+                  "key": "Set-Cookie",
+                  "value": "refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdJZCI6IjUyZTlhNDMxLTIzMmItNGJjMy1hNTY5LWE3YzYwNDAwYTIzOCIsIm9yZ0VtYWlsIjoiaGVsbG9AYWNtZWNvcnAuY29tIiwib3JnTmFtZSI6IkFjbWUgQ29ycCIsImlhdCI6MTc3MzE1MTg0MSwiZXhwIjoxNzczNzU2NjQxfQ.VBninc6yvJXDGu1oBaAH27xj8UQalnPguh7VOcys5k4; Path=/; HttpOnly; Secure; SameSite=Strict"
+                }
+              ],
+              "body": "{\"access_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdJZCI6IjUyZTlhNDMxLTIzMmItNGJjMy1hNTY5LWE3YzYwNDAwYTIzOCIsIm9yZ0VtYWlsIjoiaGVsbG9AYWNtZWNvcnAuY29tIiwib3JnTmFtZSI6IkFjbWUgQ29ycCIsImlhdCI6MTc3MzE1MTg0MSwiZXhwIjoxNzczMjM4MjQxfQ.Rjlf4kMwo4hfivdp99I41Z7RsgPGqFFssVbAVD5LjXY\",\"refresh_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdJZCI6IjUyZTlhNDMxLTIzMmItNGJjMy1hNTY5LWE3YzYwNDAwYTIzOCIsIm9yZ0VtYWlsIjoiaGVsbG9AYWNtZWNvcnAuY29tIiwib3JnTmFtZSI6IkFjbWUgQ29ycCIsImlhdCI6MTc3MzE1MTg0MSwiZXhwIjoxNzczNzU2NjQxfQ.VBninc6yvJXDGu1oBaAH27xj8UQalnPguh7VOcys5k4\"}",
+              "name": "Login Organization",
+              "originalRequest": {
+                "v": "6",
+                "method": "POST",
+                "endpoint": "http://localhost:3000/organization/login",
+                "headers": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": "application/json",
+                  "body": "{\n  \"email\": \"hello@acmecorp.com\",\n  \"password\": \"OrgPassword123!\"\n}"
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Login Organization",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Get All Organizations",
+          "method": "GET",
+          "endpoint": "http://localhost:3000/organization",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "Get All Organizations": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1008"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:12:00 GMT"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3f0-yHp+rHuHBrzgXfAR4JLTWmmdPu8\""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                }
+              ],
+              "body": "[{\"orgId\":\"c6821fb9-f614-4cb3-9517-8bfa798cc5e1\",\"orgName\":\"Aman Finance\",\"orgMail\":\"acme@example.com\",\"password\":\"$2b$10$XPjfYv0GBSHcLD/rba4xFeLBy5voSM.pK8gWpqrdKdJb8x9S1wL/.\"},{\"orgId\":\"06cde9f9-5174-4b70-b891-e878cc942912\",\"orgName\":\"Aman Finance\",\"orgMail\":\"acme1@example.com\",\"password\":\"$2b$10$yz0kIIHRw9vfHBx2FUGD4u26loUEfgB3sp1uN.1hWiRj6j/orQz9G\"},{\"orgId\":\"ebb26286-f093-49db-bae8-367f79b3ca19\",\"orgName\":\"Aman Finance\",\"orgMail\":\"acme2@example.com\",\"password\":null},{\"orgId\":\"dfab3c0d-a5f5-4f4b-a223-0f51a5be161c\",\"orgName\":\"Aman Finance\",\"orgMail\":\"acme3@example.com\",\"password\":\"$2b$10$hfeeuySrXdWFDdEIGV39COgFmy9CO5MQN5.RYn2CbS.2Vl9ALPWYG\"},{\"orgId\":\"978ca723-ee2e-4b31-9d9d-741cc8b7c9c6\",\"orgName\":\"Aman Finance\",\"orgMail\":\"acme4@example.com\",\"password\":\"$2b$10$bOX3zEZT9dTah7aLIqrATe6jBzKVmiDbe6jAMWSxlIbWstQU3BiOm\"},{\"orgId\":\"52e9a431-232b-4bc3-a569-a7c60400a238\",\"orgName\":\"Acme Corp\",\"orgMail\":\"hello@acmecorp.com\",\"password\":\"$2b$10$Ro5wQYoqUJaLGcy/V.8R3eWpBDEO1B03.5nGgIgiiuvCN1pAyCAeO\"}]",
+              "name": "Get All Organizations",
+              "originalRequest": {
+                "v": "6",
+                "method": "GET",
+                "endpoint": "http://localhost:3000/organization",
+                "headers": [],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Get All Organizations",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Get Specific Organization",
+          "method": "GET",
+          "endpoint": "http://localhost:3000/organization/52e9a431-232b-4bc3-a569-a7c60400a238",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "Get Specific Organization": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Content-Length",
+                  "value": "175"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:12:55 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"af-EMZBTUcdfQsreJSsbZmnZNWpGww\""
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "body": "{\"orgId\":\"52e9a431-232b-4bc3-a569-a7c60400a238\",\"orgName\":\"Acme Corp\",\"orgMail\":\"hello@acmecorp.com\",\"password\":\"$2b$10$Ro5wQYoqUJaLGcy/V.8R3eWpBDEO1B03.5nGgIgiiuvCN1pAyCAeO\"}",
+              "name": "Get Specific Organization",
+              "originalRequest": {
+                "v": "6",
+                "method": "GET",
+                "endpoint": "http://localhost:3000/organization/52e9a431-232b-4bc3-a569-a7c60400a238",
+                "headers": [],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Get Specific Organization",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Update Organization",
+          "method": "PATCH",
+          "endpoint": "http://localhost:3000/organization/52e9a431-232b-4bc3-a569-a7c60400a238",
+          "params": [],
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"orgName\": \"Acme Corporation Updated\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "Update Organization": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"be-+UWqMQ8ydDQwE0RSveDFI7u1ZJg\""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "190"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:13:17 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "body": "{\"orgId\":\"52e9a431-232b-4bc3-a569-a7c60400a238\",\"orgName\":\"Acme Corporation Updated\",\"orgMail\":\"hello@acmecorp.com\",\"password\":\"$2b$10$Ro5wQYoqUJaLGcy/V.8R3eWpBDEO1B03.5nGgIgiiuvCN1pAyCAeO\"}",
+              "name": "Update Organization",
+              "originalRequest": {
+                "v": "6",
+                "method": "PATCH",
+                "endpoint": "http://localhost:3000/organization/52e9a431-232b-4bc3-a569-a7c60400a238",
+                "headers": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": "application/json",
+                  "body": "{\n  \"orgName\": \"Acme Corporation Updated\"\n}"
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Update Organization",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Delete Organization",
+          "method": "DELETE",
+          "endpoint": "http://localhost:3000/organization/33b6e74b-bf06-475b-997f-c8ecac47ced0",
+          "params": [],
+          "headers": [],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "Delete Organization": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"17-PVQD/E0HAqMH9FRBYNXdIixTtCA\""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "23"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:13:47 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "body": "{\"raw\":[],\"affected\":1}",
+              "name": "Delete Organization",
+              "originalRequest": {
+                "v": "6",
+                "method": "DELETE",
+                "endpoint": "http://localhost:3000/organization/33b6e74b-bf06-475b-997f-c8ecac47ced0",
+                "headers": [],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Delete Organization",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "variables": [],
+      "description": null
+    },
+    {
+      "v": 11,
+      "name": "3. Membership",
+      "folders": [],
+      "requests": [
+        {
+          "v": "17",
+          "name": "Assign Membership (Admin/Owner)",
+          "method": "POST",
+          "endpoint": "http://localhost:3000/membership",
+          "params": [],
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"userId\": \"d9801eb2-de8d-4706-add5-15c48157926c\",\n  \"orgId\": \"52e9a431-232b-4bc3-a569-a7c60400a238\",\n  \"role\": \"ADMIN\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "Assign Membership (Admin/Owner)": {
+              "status": "201 Created",
+              "code": 201,
+              "headers": [
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:34:23 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "514"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"202-WfZ2wxA7DrWiEPuc3VB9DrXLTB4\""
+                }
+              ],
+              "body": "{\"id\":\"4c144ffc-ddc2-4e17-b4b3-15ac050cc756\",\"user\":{\"id\":\"d9801eb2-de8d-4706-add5-15c48157926c\",\"firstName\":null,\"lastName\":null,\"email\":\"user2@example.com\",\"username\":\"user2\",\"provider\":\"local\",\"providerId\":null,\"createdAt\":\"2026-03-08T00:52:33.272Z\",\"updatedAt\":\"2026-03-08T00:52:33.272Z\"},\"organization\":{\"orgId\":\"52e9a431-232b-4bc3-a569-a7c60400a238\",\"orgName\":\"Acme Corporation Updated\",\"orgMail\":\"hello@acmecorp.com\",\"password\":\"$2b$10$Ro5wQYoqUJaLGcy/V.8R3eWpBDEO1B03.5nGgIgiiuvCN1pAyCAeO\"},\"role\":\"ADMIN\"}",
+              "name": "Assign Membership (Admin/Owner)",
+              "originalRequest": {
+                "v": "6",
+                "method": "POST",
+                "endpoint": "http://localhost:3000/membership",
+                "headers": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "active": true,
+                    "description": ""
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": "application/json",
+                  "body": "{\n  \"userId\": \"d9801eb2-de8d-4706-add5-15c48157926c\",\n  \"orgId\": \"52e9a431-232b-4bc3-a569-a7c60400a238\",\n  \"role\": \"ADMIN\"\n}"
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Assign Membership (Admin/Owner)",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Transfer Ownership (Owner Only)",
+          "method": "POST",
+          "endpoint": "http://localhost:3000/membership/transfer-ownership",
+          "params": [],
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"targetUserId\": \"d9801eb2-de8d-4706-add5-15c48157926c\",\n  \"orgId\": \"52e9a431-232b-4bc3-a569-a7c60400a238\"\n}\n"
+          },
+          "requestVariables": [],
+          "responses": {
+            "Transfer Ownership (Owner Only)": {
+              "status": "201 Created",
+              "code": 201,
+              "headers": [
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:37:28 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1413"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"585-QclyLM8eEnBzi0MbxkpYNX5hgLU\""
+                }
+              ],
+              "body": "{\"message\":\"Ownership transferred\",\"orgId\":\"52e9a431-232b-4bc3-a569-a7c60400a238\",\"previousOwner\":{\"userId\":\"3f876f4e-6c38-465b-a4c9-0a6a22e18c68\",\"membershipId\":\"24aa360b-3de3-4d88-9dc2-5d6283096a74\",\"role\":\"ADMIN\"},\"newOwner\":{\"userId\":\"d9801eb2-de8d-4706-add5-15c48157926c\",\"membershipId\":\"421036d6-f647-49a5-abda-61f0a5d0c6c5\",\"role\":\"OWNER\"},\"updatedTarget\":{\"id\":\"421036d6-f647-49a5-abda-61f0a5d0c6c5\",\"user\":{\"id\":\"d9801eb2-de8d-4706-add5-15c48157926c\",\"firstName\":null,\"lastName\":null,\"email\":\"user2@example.com\",\"username\":\"user2\",\"provider\":\"local\",\"providerId\":null,\"createdAt\":\"2026-03-08T00:52:33.272Z\",\"updatedAt\":\"2026-03-08T00:52:33.272Z\"},\"organization\":{\"orgId\":\"52e9a431-232b-4bc3-a569-a7c60400a238\",\"orgName\":\"Acme Corporation Updated\",\"orgMail\":\"hello@acmecorp.com\",\"password\":\"$2b$10$Ro5wQYoqUJaLGcy/V.8R3eWpBDEO1B03.5nGgIgiiuvCN1pAyCAeO\"},\"role\":\"OWNER\"},\"updatedOwner\":{\"id\":\"24aa360b-3de3-4d88-9dc2-5d6283096a74\",\"user\":{\"id\":\"3f876f4e-6c38-465b-a4c9-0a6a22e18c68\",\"firstName\":null,\"lastName\":null,\"email\":\"john.doe@example.com\",\"username\":\"johndoe\",\"provider\":\"local\",\"providerId\":null,\"createdAt\":\"2026-03-10T08:44:24.583Z\",\"updatedAt\":\"2026-03-10T08:44:24.583Z\"},\"organization\":{\"orgId\":\"52e9a431-232b-4bc3-a569-a7c60400a238\",\"orgName\":\"Acme Corporation Updated\",\"orgMail\":\"hello@acmecorp.com\",\"password\":\"$2b$10$Ro5wQYoqUJaLGcy/V.8R3eWpBDEO1B03.5nGgIgiiuvCN1pAyCAeO\"},\"role\":\"ADMIN\"}}",
+              "name": "Transfer Ownership (Owner Only)",
+              "originalRequest": {
+                "v": "6",
+                "method": "POST",
+                "endpoint": "http://localhost:3000/membership/transfer-ownership",
+                "headers": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "active": true,
+                    "description": ""
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": "application/json",
+                  "body": "{\n  \"targetUserId\": \"d9801eb2-de8d-4706-add5-15c48157926c\",\n  \"orgId\": \"52e9a431-232b-4bc3-a569-a7c60400a238\"\n}\n"
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Transfer Ownership (Owner Only)",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Get All Memberships",
+          "method": "GET",
+          "endpoint": "http://localhost:3000/membership",
+          "params": [],
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "Get All Memberships": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "ETag",
+                  "value": "W/\"7d-PZj3iMp0HfbId73t+Cnq8nTCgwU\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:28:17 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "125"
+                }
+              ],
+              "body": "[{\"id\":\"aaaa03b2-fb5a-48df-89a9-475762e06f63\",\"role\":\"MEMBER\"},{\"id\":\"24aa360b-3de3-4d88-9dc2-5d6283096a74\",\"role\":\"MEMBER\"}]",
+              "name": "Get All Memberships",
+              "originalRequest": {
+                "v": "6",
+                "method": "GET",
+                "endpoint": "http://localhost:3000/membership",
+                "headers": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Get All Memberships",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Get Specific Membership",
+          "method": "GET",
+          "endpoint": "http://localhost:3000/membership/24aa360b-3de3-4d88-9dc2-5d6283096a74",
+          "params": [],
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "Get Specific Membership": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Content-Length",
+                  "value": "61"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:28:48 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"3d-5RJVKui7xp2C98GEOBFvjo7AXHM\""
+                }
+              ],
+              "body": "{\"id\":\"24aa360b-3de3-4d88-9dc2-5d6283096a74\",\"role\":\"MEMBER\"}",
+              "name": "Get Specific Membership",
+              "originalRequest": {
+                "v": "6",
+                "method": "GET",
+                "endpoint": "http://localhost:3000/membership/24aa360b-3de3-4d88-9dc2-5d6283096a74",
+                "headers": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Get Specific Membership",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Update Membership Role (Admin/Owner)",
+          "method": "PATCH",
+          "endpoint": "http://localhost:3000/membership/m290f1ee-6c54-4b01-90e6-d701748f0851",
+          "params": [],
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkOTgwMWViMi1kZThkLTQ3MDYtYWRkNS0xNWM0ODE1NzkyNmMiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6InVzZXIyQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJ1c2VyMiIsImlhdCI6MTc3MzE1MzU1NywiZXhwIjoxNzczMjM5OTU3fQ._oCkiq4X_5dkM0z1Qe2ogmNH6ZYhxG99GsmraZ5SbSc",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"userId\": \"3f876f4e-6c38-465b-a4c9-0a6a22e18c68\",\n  \"orgId\": \"d290f1ee-6c54-4b01-90e6-d701748f0851\",\n  \"role\": \"HR\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "Update Membership Role (Admin/Owner)": {
+              "status": "403 Forbidden",
+              "code": 403,
+              "headers": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"5c-U/3Np5dqhGIenpjC/8BQ76KgUPg\""
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "92"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:38:35 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "body": "{\"message\":\"You are not a member of this organization\",\"error\":\"Forbidden\",\"statusCode\":403}",
+              "name": "Update Membership Role (Admin/Owner)",
+              "originalRequest": {
+                "v": "6",
+                "method": "PATCH",
+                "endpoint": "http://localhost:3000/membership/m290f1ee-6c54-4b01-90e6-d701748f0851",
+                "headers": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "active": true,
+                    "description": ""
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": "application/json",
+                  "body": "{\n  \"userId\": \"3f876f4e-6c38-465b-a4c9-0a6a22e18c68\",\n  \"orgId\": \"d290f1ee-6c54-4b01-90e6-d701748f0851\",\n  \"role\": \"HR\"\n}"
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Update Membership Role (Admin/Owner)",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Remove Membership (Admin/Owner)",
+          "method": "DELETE",
+          "endpoint": "http://localhost:3000/membership/421036d6-f647-49a5-abda-61f0a5d0c6c5",
+          "params": [],
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkOTgwMWViMi1kZThkLTQ3MDYtYWRkNS0xNWM0ODE1NzkyNmMiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6InVzZXIyQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJ1c2VyMiIsImlhdCI6MTc3MzE1MzU1NywiZXhwIjoxNzczMjM5OTU3fQ._oCkiq4X_5dkM0z1Qe2ogmNH6ZYhxG99GsmraZ5SbSc",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"orgId\": \"52e9a431-232b-4bc3-a569-a7c60400a238\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "Remove Membership (Admin/Owner)": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"17-PVQD/E0HAqMH9FRBYNXdIixTtCA\""
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "23"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:43:12 GMT"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "body": "{\"raw\":[],\"affected\":1}",
+              "name": "Remove Membership (Admin/Owner)",
+              "originalRequest": {
+                "v": "6",
+                "method": "DELETE",
+                "endpoint": "http://localhost:3000/membership/421036d6-f647-49a5-abda-61f0a5d0c6c5",
+                "headers": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "active": true,
+                    "description": ""
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkOTgwMWViMi1kZThkLTQ3MDYtYWRkNS0xNWM0ODE1NzkyNmMiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6InVzZXIyQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJ1c2VyMiIsImlhdCI6MTc3MzE1MzU1NywiZXhwIjoxNzczMjM5OTU3fQ._oCkiq4X_5dkM0z1Qe2ogmNH6ZYhxG99GsmraZ5SbSc",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": "application/json",
+                  "body": "{\n  \"orgId\": \"52e9a431-232b-4bc3-a569-a7c60400a238\"\n}"
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Remove Membership (Admin/Owner)",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "variables": [],
+      "description": null
+    },
+    {
+      "v": 11,
+      "name": "4. Users",
+      "folders": [],
+      "requests": [
+        {
+          "v": "17",
+          "name": "Get All Users",
+          "method": "GET",
+          "endpoint": "http://localhost:3000/users",
+          "params": [],
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "Get All Users": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "729"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"2d9-5C9T2x+xwXN2zRqs6H0C76QDyiQ\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:22:05 GMT"
+                }
+              ],
+              "body": "[{\"id\":\"160c6172-03ae-42a9-8987-457c2bf364ba\",\"firstName\":null,\"lastName\":null,\"email\":\"user1@example.com\",\"username\":\"user1\",\"provider\":\"local\",\"providerId\":null,\"createdAt\":\"2026-03-07T04:57:05.693Z\",\"updatedAt\":\"2026-03-07T04:57:05.693Z\"},{\"id\":\"d9801eb2-de8d-4706-add5-15c48157926c\",\"firstName\":null,\"lastName\":null,\"email\":\"user2@example.com\",\"username\":\"user2\",\"provider\":\"local\",\"providerId\":null,\"createdAt\":\"2026-03-08T00:52:33.272Z\",\"updatedAt\":\"2026-03-08T00:52:33.272Z\"},{\"id\":\"3f876f4e-6c38-465b-a4c9-0a6a22e18c68\",\"firstName\":null,\"lastName\":null,\"email\":\"john.doe@example.com\",\"username\":\"johndoe\",\"provider\":\"local\",\"providerId\":null,\"createdAt\":\"2026-03-10T08:44:24.583Z\",\"updatedAt\":\"2026-03-10T08:44:24.583Z\"}]",
+              "name": "Get All Users",
+              "originalRequest": {
+                "v": "6",
+                "method": "GET",
+                "endpoint": "http://localhost:3000/users",
+                "headers": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Get All Users",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Get Specific User",
+          "method": "GET",
+          "endpoint": "http://localhost:3000/users/160c6172-03ae-42a9-8987-457c2bf364ba",
+          "params": [],
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "Get Specific User": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "ETag",
+                  "value": "W/\"f0-2aMKPHy79Lxa43oDllo7zuA5GlE\""
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:22:28 GMT"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "240"
+                }
+              ],
+              "body": "{\"id\":\"160c6172-03ae-42a9-8987-457c2bf364ba\",\"firstName\":null,\"lastName\":null,\"email\":\"user1@example.com\",\"username\":\"user1\",\"provider\":\"local\",\"providerId\":null,\"createdAt\":\"2026-03-07T04:57:05.693Z\",\"updatedAt\":\"2026-03-07T04:57:05.693Z\"}",
+              "name": "Get Specific User",
+              "originalRequest": {
+                "v": "6",
+                "method": "GET",
+                "endpoint": "http://localhost:3000/users/160c6172-03ae-42a9-8987-457c2bf364ba",
+                "headers": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Get Specific User",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Update User",
+          "method": "PATCH",
+          "endpoint": "http://localhost:3000/users/160c6172-03ae-42a9-8987-457c2bf364ba",
+          "params": [],
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "active": true,
+              "description": ""
+            },
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": "application/json",
+            "body": "{\n  \"firstName\": \"Johnny\",\n  \"lastName\": \"Bravo\"\n}"
+          },
+          "requestVariables": [],
+          "responses": {
+            "Update User": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:26:17 GMT"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "247"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"f7-ud16k+JC7FtP14L9KymqF5KZkEk\""
+                }
+              ],
+              "body": "{\"id\":\"160c6172-03ae-42a9-8987-457c2bf364ba\",\"firstName\":\"Johnny\",\"lastName\":\"Bravo\",\"email\":\"user1@example.com\",\"username\":\"user1\",\"provider\":\"local\",\"providerId\":null,\"createdAt\":\"2026-03-07T04:57:05.693Z\",\"updatedAt\":\"2026-03-10T08:56:20.961Z\"}",
+              "name": "Update User",
+              "originalRequest": {
+                "v": "6",
+                "method": "PATCH",
+                "endpoint": "http://localhost:3000/users/160c6172-03ae-42a9-8987-457c2bf364ba",
+                "headers": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "active": true,
+                    "description": ""
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": "application/json",
+                  "body": "{\n  \"firstName\": \"Johnny\",\n  \"lastName\": \"Bravo\"\n}"
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Update User",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        },
+        {
+          "v": "17",
+          "name": "Delete User",
+          "method": "DELETE",
+          "endpoint": "http://localhost:3000/users/160c6172-03ae-42a9-8987-457c2bf364ba",
+          "params": [],
+          "headers": [
+            {
+              "key": "Authorization",
+              "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+              "active": true,
+              "description": ""
+            }
+          ],
+          "preRequestScript": "",
+          "testScript": "",
+          "auth": {
+            "authType": "inherit",
+            "authActive": true
+          },
+          "body": {
+            "contentType": null,
+            "body": null
+          },
+          "requestVariables": [],
+          "responses": {
+            "Delete User": {
+              "status": "200 OK",
+              "code": 200,
+              "headers": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "0"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 10 Mar 2026 14:26:51 GMT"
+                }
+              ],
+              "body": "",
+              "name": "Delete User",
+              "originalRequest": {
+                "v": "6",
+                "method": "DELETE",
+                "endpoint": "http://localhost:3000/users/160c6172-03ae-42a9-8987-457c2bf364ba",
+                "headers": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjg3NmY0ZS02YzM4LTQ2NWItYTRjOS0wYTZhMjJlMThjNjgiLCJmaXJzdE5hbWUiOm51bGwsImxhc3ROYW1lIjpudWxsLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNzczMTUyNTE0LCJleHAiOjE3NzMyMzg5MTR9.pSaBsdtErXmALdzu9pmjDRLuda762n3H8Sk65yMl2GU",
+                    "active": true,
+                    "description": ""
+                  }
+                ],
+                "body": {
+                  "contentType": null,
+                  "body": null
+                },
+                "auth": {
+                  "authType": "none",
+                  "authActive": true
+                },
+                "params": [],
+                "name": "Delete User",
+                "requestVariables": []
+              }
+            }
+          },
+          "description": null
+        }
+      ],
+      "auth": {
+        "authType": "inherit",
+        "authActive": true
+      },
+      "headers": [],
+      "variables": [],
+      "description": null
+    }
+  ],
+  "requests": [],
+  "auth": {
+    "authType": "inherit",
+    "authActive": true
+  },
+  "headers": [],
+  "variables": [],
+  "description": "API Collection for CRag Backend (NestJS). Ready to import into Hoppscotch or Postman."
+}

@@ -5,14 +5,11 @@ import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppConfig } from 'config/env';
 import type { StringValue } from 'ms';
-import { Memberships } from 'src/membership/entities/membership.entity';
-import { MembershipService } from 'src/membership/membership.service';
+import { Organization } from 'src/organization/entities/organization.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Organization } from './entities/organization.entity';
-import { LocalAuthGuard } from './guards/local-auth.guard';
-import { OrganizationController } from './organization.controller';
-import { OrganizationService } from './organization.service';
-import { LocalOrgStrategy } from './strategies/local.strategy';
+import { Memberships } from './entities/membership.entity';
+import { MembershipController } from './membership.controller';
+import { MembershipService } from './membership.service';
 
 @Module({
   imports: [
@@ -30,13 +27,8 @@ import { LocalOrgStrategy } from './strategies/local.strategy';
       },
     }),
   ],
-  controllers: [OrganizationController],
-  providers: [
-    OrganizationService,
-    MembershipService,
-    LocalAuthGuard,
-    LocalOrgStrategy,
-  ],
-  exports: [OrganizationService, MembershipService],
+  controllers: [MembershipController],
+  providers: [MembershipService],
+  exports: [MembershipService],
 })
-export class OrganizationModule {}
+export class MembershipModule {}

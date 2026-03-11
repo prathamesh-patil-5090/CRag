@@ -1,10 +1,12 @@
 import { Organization } from 'src/organization/entities/organization.entity';
+import { User } from 'src/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from './user.entity';
 
 export enum OrgRole {
   OWNER = 'OWNER',
   ADMIN = 'ADMIN',
+  MANAGER = 'MANAGER',
+  HR = 'HR',
   MEMBER = 'MEMBER',
 }
 

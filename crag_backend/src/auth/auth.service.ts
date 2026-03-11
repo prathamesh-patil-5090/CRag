@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { AppConfig } from 'config/env';
 import type { StringValue } from 'ms';
-import { MembershipService } from 'src/organization/membership.service';
+import { MembershipService } from 'src/membership/membership.service';
 import { OrganizationService } from 'src/organization/organization.service';
 import { AuthProvider, User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
@@ -75,6 +75,7 @@ export class AuthService {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw new UnauthorizedException('Invalid Credentials');
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _pw, ...result } = user;
     return result;
   }

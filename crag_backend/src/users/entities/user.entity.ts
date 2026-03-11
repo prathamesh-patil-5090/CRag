@@ -1,3 +1,4 @@
+import { Memberships } from 'src/membership/entities/membership.entity';
 import {
   Column,
   CreateDateColumn,
@@ -6,7 +7,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Memberships } from './membership.entity';
 
 export enum AuthProvider {
   LOCAL = 'local',
