@@ -12,7 +12,7 @@ export class Organization {
   @Column({ unique: true })
   orgMail: string;
 
-  @Column({ nullable: true })
+  @Column({ select: false, nullable: true })
   password: string;
 
   @Column({ type: 'varchar', nullable: true, select: false })
