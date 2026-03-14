@@ -5,9 +5,12 @@ import appConfig, { AppConfig } from 'config/env';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { OrganizationModule } from './organization/organization.module';
-import { UsersModule } from './users/users.module';
+import { DocumentsModule } from './documents/documents.module';
 import { MembershipModule } from './membership/membership.module';
+import { OrganizationModule } from './organization/organization.module';
+import { QueueModule } from './queue/queue.module';
+import { UsersModule } from './users/users.module';
+import { s3Provider } from './common/s3.provider';
 
 @Module({
   imports: [
@@ -33,8 +36,10 @@ import { MembershipModule } from './membership/membership.module';
     UsersModule,
     OrganizationModule,
     MembershipModule,
+    QueueModule,
+    DocumentsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, s3Provider],
 })
 export class AppModule {}

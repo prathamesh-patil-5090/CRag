@@ -4,6 +4,7 @@ export type AppConfig = {
   port: number;
   bcryptRounds: number;
   databaseUrl: string;
+  redisUrl: string;
   jwt: {
     secret: string;
     expiresIn: string;
@@ -20,6 +21,12 @@ export type AppConfig = {
     clientSecret: string;
     callbackUrl: string;
   };
+  minioEndpoint: string;
+  minioAccessKey: string;
+  minioSecretKey: string;
+  minioRegion: string;
+  minioForcePathStyle: boolean;
+  minioBucket: string;
 };
 
 export default registerAs('app', (): AppConfig => {
@@ -33,6 +40,7 @@ export default registerAs('app', (): AppConfig => {
     port: Number(process.env.PORT ?? 3000),
     bcryptRounds: Number(process.env.BCRYPT_ROUNDS ?? 10),
     databaseUrl: required('DATABASE_URL'),
+    redisUrl: process.env.REDIS_URL ?? 'redis://localhost:6379',
     jwt: {
       secret: required('JWT_SECRET'),
       expiresIn: process.env.JWT_EXPIRES_IN ?? '15m',
@@ -49,5 +57,11 @@ export default registerAs('app', (): AppConfig => {
       clientSecret: process.env.GITHUB_CLIENT_SECRET ?? '',
       callbackUrl: process.env.GITHUB_CALLBACK_URL ?? '',
     },
+    minioEndpoint: process.env.MINIO_ENDPOINT || '',
+    minioAccessKey: process.env.MINIO_ACCESS_KEY || '',
+    minioSecretKey: process.env.MINIO_SECRET_KEY || '',
+    minioRegion: process.env.MINIO_REGION || '',
+    minioForcePathStyle: process.env.MINIO_FORCE_PATH_STYLE === 'true',
+    minioBucket: process.env.MINIO_BUCKET || '',
   };
 });

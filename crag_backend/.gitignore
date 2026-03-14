@@ -3,6 +3,10 @@
 /node_modules
 /build
 
+# uploaded documents (local disk storage)
+/uploads
+/minio
+
 # Logs
 logs
 *.log
