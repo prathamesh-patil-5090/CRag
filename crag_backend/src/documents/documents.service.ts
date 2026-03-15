@@ -1,24 +1,28 @@
+import {
+  GetObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { InjectQueue } from '@nestjs/bullmq';
 import {
   BadRequestException,
   ForbiddenException,
   Inject,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bullmq';
+import * as fs from 'fs';
 import 'multer';
+import { S3_PROVIDER } from 'src/common/s3.provider';
 import { MembershipService } from 'src/membership/membership.service';
 import { Repository } from 'typeorm';
+import { promisify } from 'util';
 import { CreateDocumentDto } from './dto/create-document.dto';
 import { Document, DocumentStatus } from './entities/document.entity';
-import { S3_PROVIDER } from 'src/common/s3.provider';
-import { S3Client } from '@aws-sdk/client-s3';
-import { PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import * as fs from 'fs';
-import { promisify } from 'util';
 
 type RequestUser = { id?: string; sub?: string };
 
@@ -26,6 +30,9 @@ const unlinkAsync = promisify(fs.unlink);
 
 @Injectable()
 export class DocumentsService {
+  private readonly logger = new Logger(DocumentsService.name);
+  private bucket = process.env.MINIO_BUCKET || '';
+
   constructor(
     @InjectRepository(Document)
     private readonly documentRepo: Repository<Document>,
@@ -71,11 +78,13 @@ export class DocumentsService {
     const userId = this.getUserId(user);
     await this.assertMembership(userId, dto.orgId);
 
-    const bucket = process.env.MINIO_BUCKET || 'test-bucket';
     const key = `orgs/${dto.orgId}/${Date.now()}_${file.originalname}`;
 
-    // build Body from buffer or disk path
-    let Body: any;
+    let Body:
+      | Express.Multer.File
+      | undefined
+      | fs.ReadStream
+      | Buffer<ArrayBufferLike>;
     if (file.buffer && file.buffer.length) {
       Body = file.buffer;
     } else if (file.path) {
@@ -84,25 +93,26 @@ export class DocumentsService {
       throw new BadRequestException('Invalid file payload');
     }
 
-    // upload to MinIO
     await this.s3Client.send(
       new PutObjectCommand({
-        Bucket: bucket,
+        Bucket: this.bucket,
         Key: key,
         Body,
         ContentType: file.mimetype,
       }),
     );
 
-    // optionally remove local temp file if diskStorage used
     if (file.path) {
       try {
         await unlinkAsync(file.path);
-      } catch (e) {}
+      } catch (e) {
+        this.logger.error(
+          `Error catched during deleting local temp file - ${e}`,
+        );
+      }
     }
 
-    // store s3 path in DB
-    const s3Url = `s3://${bucket}/${key}`;
+    const s3Url: string = `s3://${this.bucket}/${key}`;
 
     const document = this.documentRepo.create({
       orgId: dto.orgId,
@@ -136,8 +146,12 @@ export class DocumentsService {
   }
 
   async getDownloadUrl(s3Url: string, expiresIn = 3600): Promise<string> {
-    const { 1: bucket, ...rest } = s3Url.replace('s3://', '').split('/');
-    const key = s3Url.replace(`s3://${bucket}/`, '');
+    const cleaned = s3Url.replace('/^s3:///', '');
+    const [bucket, ...rest] = cleaned.split('/');
+    if (!bucket || rest.length === 0) {
+      throw new BadRequestException('Invalid s3 url');
+    }
+    const key = rest.join('/');
     const cmd = new GetObjectCommand({ Bucket: bucket, Key: key });
     return getSignedUrl(this.s3Client, cmd, { expiresIn });
   }
