@@ -3,18 +3,16 @@ import {
   Controller,
   Delete,
   Get,
-  MaxFileSizeValidator,
   Param,
-  ParseFilePipe,
   ParseUUIDPipe,
   Post,
   Query,
   Req,
-  UploadedFile,
+  UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { existsSync, mkdirSync } from 'fs';
 import { diskStorage, StorageEngine } from 'multer';
@@ -57,19 +55,23 @@ export class DocumentsController {
   constructor(private readonly documentsService: DocumentsService) {}
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file', { storage: documentStorage }))
+  @UseInterceptors(FilesInterceptor('file', 10, { storage: documentStorage }))
   uploadDocument(
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [new MaxFileSizeValidator({ maxSize: 10 * 1024 * 1024 })],
-        fileIsRequired: true,
-      }),
-    )
-    file: Express.Multer.File,
+    @UploadedFiles() files: Express.Multer.File[],
     @Body() dto: CreateDocumentDto,
     @Req() req: Request & { user: { id?: string; sub?: string } },
   ) {
-    return this.documentsService.upload(file, req.user, dto);
+    return this.documentsService.upload(files, req.user, dto);
+  }
+
+  @Post('upload/company')
+  @UseInterceptors(FilesInterceptor('file', 10, { storage: documentStorage }))
+  uploadCompanyDocument(
+    @UploadedFiles() files: Express.Multer.File[],
+    @Body() dto: CreateDocumentDto,
+    @Req() req: Request & { user: { id?: string; sub?: string } },
+  ) {
+    return this.documentsService.uploadCompanyDocs(files, req.user, dto);
   }
 
   @Get()
