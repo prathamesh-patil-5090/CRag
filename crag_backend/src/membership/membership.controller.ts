@@ -7,8 +7,11 @@ import {
   Patch,
   Post,
   Request,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
+import type { Request as ExpressRequest } from 'express';
+import { User } from 'src/users/entities/user.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from './decorator/roles.decorator';
 import { CreateMembershipDto } from './dto/create-membership.dto';
@@ -35,11 +38,14 @@ export class MembershipController {
   @Roles(OrgRole.OWNER)
   @Post('transfer-ownership')
   transferOwnership(
-    @Request() req: any,
+    @Request() req: ExpressRequest & { user?: User },
     @Body('targetUserId') targetUserId: string,
     @Body('orgId') orgId: string,
   ) {
-    const currentUserId = req.user.id || req.user.sub;
+    const currentUserId = req.user?.id;
+
+    if (!currentUserId) throw new UnauthorizedException('Need a valid user Id');
+
     return this.membershipService.transferOwnershipToUser(
       currentUserId,
       targetUserId,

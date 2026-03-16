@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Delete,
-  FileTypeValidator,
   Get,
   MaxFileSizeValidator,
   Param,

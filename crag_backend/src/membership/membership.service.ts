@@ -78,7 +78,8 @@ export class MembershipService {
     if (!Object.values(OrgRole).includes(roleNorm as OrgRole)) {
       throw new BadRequestException('Invalid role');
     }
-    if (roleNorm === OrgRole.OWNER) {
+    const roleEnum = roleNorm as OrgRole;
+    if (roleEnum === OrgRole.OWNER) {
       throw new BadRequestException('Cannot assign OWNER role via this method');
     }
 
@@ -175,7 +176,7 @@ export class MembershipService {
     if (!Object.values(OrgRole).includes(roleNorm as OrgRole)) {
       throw new BadRequestException('Invalid role');
     }
-    if (roleNorm === OrgRole.OWNER) {
+    if ((roleNorm as OrgRole) === OrgRole.OWNER) {
       throw new BadRequestException(
         'Cannot update role to OWNER role via this method',
       );

@@ -29,18 +29,25 @@ export class OrgRoleGuard implements CanActivate {
 
     const request = context
       .switchToHttp()
-      .getRequest<Request & { user: any }>();
+      .getRequest<Request & { user?: { id?: string; sub?: string } }>();
+
     const user = request.user;
 
     if (!user) {
       throw new ForbiddenException('User not authenticated');
     }
 
-    const orgId =
-      (request.body?.orgId as string) ||
-      (request.params?.orgId as string) ||
-      (request.params?.id as string) ||
-      (request.query?.orgId as string);
+    const bodyOrgId = (request.body as { orgId?: string } | undefined)?.orgId;
+    const paramsOrgId = (
+      request.params as { orgId?: string; id?: string } | undefined
+    )?.orgId;
+    const paramsId = (
+      request.params as { orgId?: string; id?: string } | undefined
+    )?.id;
+    const queryOrgId = (request.query as { orgId?: string } | undefined)?.orgId;
+
+    const orgId: string | undefined =
+      bodyOrgId ?? paramsOrgId ?? paramsId ?? queryOrgId;
 
     if (!orgId) {
       throw new ForbiddenException(
@@ -48,7 +55,7 @@ export class OrgRoleGuard implements CanActivate {
       );
     }
 
-    const currentUserId: string = user.id;
+    const currentUserId: string | undefined = user.id ?? user.sub;
 
     if (!currentUserId) {
       throw new ForbiddenException('Invalid user token payload');
@@ -67,7 +74,9 @@ export class OrgRoleGuard implements CanActivate {
 
     if (!hasRole) {
       throw new ForbiddenException(
-        `You do not have permission. Required role: ${requiredRoles.join(' or ')}`,
+        `You do not have permission. Required role: ${requiredRoles.join(
+          ' or ',
+        )}`,
       );
     }
 
