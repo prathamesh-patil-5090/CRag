@@ -32,6 +32,12 @@ export class OrganizationService {
     if (existing)
       throw new ConflictException('This Organization Email is already in use');
 
+    const existingName = await this.repo.findOneBy({
+      orgName: createOrganizationDto.orgName,
+    });
+    if (existingName)
+      throw new ConflictException('This Organization Name is already in use');
+
     const hashed = await bcrypt.hash(
       createOrganizationDto.password,
       this.cfg().bcryptRounds,
@@ -87,6 +93,11 @@ export class OrganizationService {
   }
 
   async update(id: string, updateOrganizationDto: UpdateOrganizationDto) {
+    const existingName = await this.repo.findOneBy({
+      orgName: updateOrganizationDto.orgName,
+    });
+    if (existingName)
+      throw new ConflictException('This Organization Name is already in use');
     await this.repo.update(id, updateOrganizationDto);
     return this.findOne(id);
   }

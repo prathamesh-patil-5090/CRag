@@ -60,6 +60,7 @@ export class MembershipService {
         user: { id: userId },
         organization: { orgId },
       },
+      relations: ['user'],
     });
   }
 

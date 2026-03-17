@@ -89,7 +89,6 @@ export class DocumentsService {
       }),
     );
 
-    // clean up local temp file if it exists
     if (file.path) {
       try {
         await unlinkAsync(file.path);
@@ -166,7 +165,7 @@ export class DocumentsService {
 
     for (const file of files) {
       try {
-        const key = `orgs/${org.orgName.replaceAll(' ', '_')}/company/${Date.now()}_${file.originalname}`;
+        const key = `org/${org.orgName.replaceAll(' ', '_')}/company/${Date.now()}_${file.originalname}`;
         await this.uploadFileToS3(file, key);
 
         const s3Url = `s3://${this.bucket}/${key}`;
@@ -230,7 +229,13 @@ export class DocumentsService {
 
     for (const file of files) {
       try {
-        const key = `orgs/${org.orgName.replaceAll(' ', '_')}/${userRole.role}/${Date.now()}_${file.originalname}`;
+        const userName = userRole.user
+          ? `${userRole.user.firstName || ''}_${userRole.user.lastName || ''}`.replace(
+              /(^_|_$)/g,
+              '',
+            ) || 'unknown'
+          : 'unknown';
+        const key = `org/${org.orgName.replaceAll(' ', '_')}/users/${userRole.role}/${userId}_${userName}/${Date.now()}_${file.originalname}`;
         await this.uploadFileToS3(file, key);
 
         const s3Url = `s3://${this.bucket}/${key}`;
