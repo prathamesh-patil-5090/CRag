@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class AskQuestionDto {
   @IsNotEmpty()
@@ -8,4 +8,8 @@ export class AskQuestionDto {
   @IsNotEmpty()
   @IsString()
   question: string;
+
+  @IsOptional()
+  @IsUUID()
+  sessionId?: string;
 }

@@ -1,6 +1,7 @@
 import {
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
   OnModuleInit,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -9,10 +10,17 @@ import axios from 'axios';
 import { Db, MongoClient } from 'mongodb';
 import { Repository } from 'typeorm';
 import { Document } from '../documents/entities/document.entity';
+import { ChatMessage } from './dto/chat-message.entity';
+import { ChatSession } from './dto/chat-session.entity';
 import { AskQuestionDto } from './dto/chat.dto';
 
 @Injectable()
 export class ChatService implements OnModuleInit {
+  @InjectRepository(ChatSession)
+  private readonly sessionRepository: Repository<ChatSession>;
+  @InjectRepository(ChatMessage)
+  private readonly messageRepository: Repository<ChatMessage>;
+
   private readonly openRouterApiKey: string;
   private readonly mongoUri: string;
   private mongoClient: MongoClient | null = null;
@@ -56,8 +64,49 @@ export class ChatService implements OnModuleInit {
   async askQuestion(userId: string, dto: AskQuestionDto) {
     const { orgId, question } = dto;
 
-    // 1. Generate embedding for the question to perform vector search using OpenRouter
     let embedding: number[];
+    let session: ChatSession | null;
+
+    if (dto.sessionId) {
+      session = await this.sessionRepository.findOne({
+        where: {
+          id: dto.sessionId,
+          userId,
+        },
+      });
+      if (!session) throw new NotFoundException('Chat Session not found');
+    } else {
+      session = this.sessionRepository.create({
+        userId,
+        orgId,
+      });
+      await this.sessionRepository.save(session);
+    }
+
+    const userMessage = this.messageRepository.create({
+      session,
+      role: 'user',
+      content: question,
+    });
+    await this.messageRepository.save(userMessage);
+
+    const previousMessages = await this.messageRepository.find({
+      where: {
+        session: {
+          id: session.id,
+        },
+      },
+      order: {
+        createdAt: 'DESC',
+      },
+      take: 6,
+    });
+
+    const chatHistory = previousMessages.reverse().map((msg) => ({
+      role: msg.role,
+      content: msg.content,
+    }));
+
     try {
       const response = await axios.post(
         'https://openrouter.ai/api/v1/embeddings',
@@ -91,7 +140,6 @@ export class ChatService implements OnModuleInit {
       );
     }
 
-    // 2. Perform vector search query in MongoDB to find relevant document chunks
     const db = await this.getMongoDb();
     const collection = db.collection('document_embeddings');
 
@@ -138,7 +186,11 @@ export class ChatService implements OnModuleInit {
         role: 'user',
         content: question,
       },
+      ...chatHistory,
     ];
+
+    //console.log(messages);
+
     const uniqueDocs = new Map<
       string,
       { documentName: string; snippet: string; highlight: string }
@@ -174,7 +226,10 @@ export class ChatService implements OnModuleInit {
 
         const highlight = bestSentence.trim();
         const cleanedText = fullText.replace(/\n+/g, ' ');
-        const snippetText = cleanedText.length > 200 ? `${cleanedText.slice(0, 200)}...` : cleanedText;
+        const snippetText =
+          cleanedText.length > 200
+            ? `${cleanedText.slice(0, 200)}...`
+            : cleanedText;
 
         uniqueDocs.set(chunk.documentId, {
           documentName: chunk.documentName || 'Unknown Document',
@@ -187,9 +242,16 @@ export class ChatService implements OnModuleInit {
       }
     }
     const sources = Array.from(uniqueDocs.values());
-    const confidence = searchResults.length > 0 ? Number((searchResults.reduce((acc, curr) => acc + (curr.score || 0), 0) / searchResults.length).toFixed(2)) : 0;
+    const confidence =
+      searchResults.length > 0
+        ? Number(
+            (
+              searchResults.reduce((acc, curr) => acc + (curr.score || 0), 0) /
+              searchResults.length
+            ).toFixed(2),
+          )
+        : 0;
 
-    // 3. Query OpenRouter with the explicitly requested model openrouter/hunter-alpha using fetch
     try {
       const response = await fetch(
         'https://openrouter.ai/api/v1/chat/completions',
@@ -215,15 +277,22 @@ export class ChatService implements OnModuleInit {
 
       const completion = await response.json();
 
+      const aiMessage = this.messageRepository.create({
+        session: session,
+        role: 'assistant',
+        content: completion.choices[0].message.content,
+      });
+      await this.messageRepository.save(aiMessage);
+
       return {
-        answer: completion.choices[0].message.content,
+        sessionId: session.id,
+        answer: aiMessage.content,
         confidence,
         sources: sources,
       };
     } catch (error) {
-      // Fallback to meta-llama/llama-3.2-3b-instruct:free if hunter-alpha fails
       try {
-        console.log('Used Fall');
+        console.log(error);
         const fallbackResponse = await fetch(
           'https://openrouter.ai/api/v1/chat/completions',
           {
@@ -249,7 +318,7 @@ export class ChatService implements OnModuleInit {
         const fallback = await fallbackResponse.json();
 
         return {
-          answer: fallback.choices[0].message.content,
+          answer: fallback.choices[0].message.contenat,
           confidence,
           sources: sources,
           modelUsed: 'meta-llama/llama-3.2-3b-instruct:free',
