@@ -27,13 +27,14 @@ import { CreateDocumentDto } from './dto/create-document.dto';
 import { Document, DocumentStatus } from './entities/document.entity';
 
 type RequestUser = { id?: string; sub?: string };
-
 const unlinkAsync = promisify(fs.unlink);
 
 @Injectable()
 export class DocumentsService {
   private readonly logger = new Logger(DocumentsService.name);
   private bucket = process.env.MINIO_BUCKET || '';
+
+  private readonly embeddingModel = 'nvidia/llama-nemotron-embed-vl-1b-v2:free';
 
   constructor(
     @InjectRepository(Document)
@@ -113,8 +114,14 @@ export class DocumentsService {
     });
     await this.documentRepo.save(document);
 
+    // Enqueue job with richer context for the processor
     await this.documentsQueue.add('process-document', {
       documentId: document.id,
+      fileUrl,
+      orgId,
+      uploadedBy: userId,
+      embeddingModel: this.embeddingModel,
+      provider: 'openrouter',
     });
 
     return document;
@@ -286,7 +293,8 @@ export class DocumentsService {
   }
 
   async getDownloadUrl(s3Url: string, expiresIn = 3600): Promise<string> {
-    const cleaned = s3Url.replace('/^s3:///', '');
+    // Fixed string regex replacement
+    const cleaned = s3Url.replace(/^s3:\/\//, '');
     const [bucket, ...rest] = cleaned.split('/');
     if (!bucket || rest.length === 0) {
       throw new BadRequestException('Invalid s3 url');

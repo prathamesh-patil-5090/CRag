@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppConfig } from 'config/env';
+import { s3Provider } from 'src/common/s3.provider';
 import { Document } from 'src/documents/entities/document.entity';
 import { DocumentProcessor } from 'src/workers/document.processor';
 
@@ -33,7 +34,7 @@ import { DocumentProcessor } from 'src/workers/document.processor';
     }),
     TypeOrmModule.forFeature([Document]),
   ],
-  providers: [DocumentProcessor],
+  providers: [DocumentProcessor, s3Provider],
   exports: [BullModule],
 })
 export class QueueModule {}
