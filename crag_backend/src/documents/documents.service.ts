@@ -21,7 +21,7 @@ import { S3_PROVIDER } from 'src/common/s3.provider';
 import { OrgRole } from 'src/membership/entities/membership.entity';
 import { MembershipService } from 'src/membership/membership.service';
 import { OrganizationService } from 'src/organization/organization.service';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { promisify } from 'util';
 import { CreateDocumentDto } from './dto/create-document.dto';
 import { Document, DocumentStatus } from './entities/document.entity';
@@ -131,7 +131,7 @@ export class DocumentsService {
     await this.assertMembership(userId, orgId);
 
     return this.documentRepo.find({
-      where: { orgId },
+      where: { orgId, status: Not(DocumentStatus.DELETED) },
       order: { createdAt: 'DESC' },
     });
   }
@@ -276,24 +276,32 @@ export class DocumentsService {
     return uploadedDocs;
   }
 
-  async remove(
-    documentId: string,
-    user: RequestUser,
-  ): Promise<{ message: string }> {
-    const doc = await this.documentRepo.findOne({ where: { id: documentId } });
-    if (!doc) {
+  async remove(id: string, user: any, orgId: string): Promise<void> {
+    const document = await this.documentRepo.findOne({
+      where: {
+        id,
+        orgId,
+      },
+    });
+
+    if (document?.status === DocumentStatus.DELETED) {
+      throw new BadRequestException('Document is already deleted');
+    }
+
+    if (!document) {
       throw new NotFoundException('Document not found');
     }
 
-    const userId = this.getUserId(user);
-    await this.assertMembership(userId, doc.orgId);
+    document.status = DocumentStatus.DELETED;
+    await this.documentRepo.save(document);
 
-    await this.documentRepo.delete(documentId);
-    return { message: 'Document deleted successfully' };
+    await this.documentsQueue.add('delete-document', {
+      documentId: document.id,
+      fileUrl: document.fileUrl,
+    });
   }
 
   async getDownloadUrl(s3Url: string, expiresIn = 3600): Promise<string> {
-    // Fixed string regex replacement
     const cleaned = s3Url.replace(/^s3:\/\//, '');
     const [bucket, ...rest] = cleaned.split('/');
     if (!bucket || rest.length === 0) {

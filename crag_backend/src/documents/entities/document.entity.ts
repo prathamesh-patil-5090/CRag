@@ -10,6 +10,7 @@ export enum DocumentStatus {
   PROCESSING = 'PROCESSING',
   READY = 'READY',
   FAILED = 'FAILED',
+  DELETED = 'DELETED',
 }
 
 @Entity('documents')

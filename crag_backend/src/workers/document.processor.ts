@@ -1,4 +1,8 @@
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  DeleteObjectCommand,
+  GetObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Inject, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +11,7 @@ import { Job } from 'bullmq';
 import { Db, MongoClient } from 'mongodb';
 import { PDFParse } from 'pdf-parse';
 import { S3_PROVIDER } from 'src/common/s3.provider';
+
 import {
   Document,
   DocumentStatus,
@@ -20,6 +25,11 @@ export interface ProcessDocumentJob {
   uploadedBy: string;
   embeddingModel: string;
   provider: string;
+}
+
+export interface DeleteDocumentJob {
+  documentId: string;
+  fileUrl: string;
 }
 
 @Processor('documents')
@@ -56,7 +66,44 @@ export class DocumentProcessor extends WorkerHost {
     return this.mongoDb;
   }
 
-  async process(job: Job<ProcessDocumentJob>): Promise<void> {
+  async process(
+    job: Job<ProcessDocumentJob | DeleteDocumentJob>,
+  ): Promise<void> {
+    if (job.name === 'process-document') {
+      return this.handleProcessDocument(job as Job<ProcessDocumentJob>);
+    }
+  }
+
+  async handleDeleteDocument(job: Job<DeleteDocumentJob>) {
+    const { documentId, fileUrl } = job.data;
+    this.logger.log(
+      `[Job ${job.id}] Starting clean deletion for document: ${documentId}`,
+    );
+    try {
+      await this.deleteFromS3(fileUrl);
+      this.logger.log(`[Job ${job.id}] S3 file deleted: ${fileUrl}`);
+
+      const db = await this.getMongoDb();
+      const collection = db.collection('document_embeddings');
+      const deleteResult = await collection.deleteMany({ documentId });
+      this.logger.log(
+        `[Job ${job.id}] Deleted ${deleteResult.deletedCount} vector chunks from MongoDB`,
+      );
+
+      await this.documentRepo.delete(documentId);
+      this.logger.log(
+        `[Job ${job.id}] Postgres record deleted for document: ${documentId}. Cleanup complete.`,
+      );
+    } catch (error) {
+      this.logger.error(
+        `[Job ${job.id}] Failed to delete document ${documentId}`,
+        error.stack,
+      );
+      throw error;
+    }
+  }
+
+  async handleProcessDocument(job: Job<ProcessDocumentJob>): Promise<void> {
     const { documentId, fileUrl, orgId, uploadedBy, embeddingModel } = job.data;
     this.logger.log(
       `[Job ${job.id}] Starting processing for document: ${documentId}`,
@@ -186,6 +233,16 @@ export class DocumentProcessor extends WorkerHost {
     return chunks;
   }
 
+  private async deleteFromS3(s3Url: string): Promise<void> {
+    const cleaned = s3Url.replace(/^s3:\/\//, '');
+    const [bucket, ...rest] = cleaned.split('/');
+    const key = rest.join('/');
+
+    if (!bucket || !key) return;
+
+    const cmd = new DeleteObjectCommand({ Bucket: bucket, Key: key });
+    await this.s3Client.send(cmd);
+  }
   private extractDocumentNameFromS3Url(s3Url: string): string {
     const cleaned = s3Url.replace(/^s3:\/\//, '');
     const parts = cleaned.split('/');

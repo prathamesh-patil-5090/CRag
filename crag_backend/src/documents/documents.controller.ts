@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseUUIDPipe,
   Post,
@@ -83,11 +85,13 @@ export class DocumentsController {
     return this.documentsService.findAllForOrg(userId as string, orgId);
   }
 
-  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete('delete/:id/:orgId')
   deleteDocument(
-    @Req() req: Request & { user: { id?: string; sub?: string } },
     @Param('id', new ParseUUIDPipe()) id: string,
+    @Req() req: Request & { user: { id?: string; sub?: string } },
+    @Param('orgId', new ParseUUIDPipe()) orgId: string,
   ) {
-    return this.documentsService.remove(id, req.user);
+    return this.documentsService.remove(id, req.user, orgId);
   }
 }
