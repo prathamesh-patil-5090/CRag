@@ -127,6 +127,19 @@ export class DocumentsService {
     return document;
   }
 
+  async findDocByIdAndOrgId(
+    userId: string,
+    orgId: string,
+    fileId: string,
+  ): Promise<Document | null> {
+    await this.assertMembership(userId, orgId);
+
+    return await this.documentRepo.findOne({
+      where: { orgId, id: fileId, status: Not(DocumentStatus.DELETED) },
+      order: { createdAt: 'DESC' },
+    });
+  }
+
   async findAllForOrg(userId: string, orgId: string): Promise<Document[]> {
     await this.assertMembership(userId, orgId);
 

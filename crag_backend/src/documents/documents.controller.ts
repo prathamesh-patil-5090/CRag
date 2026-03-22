@@ -85,6 +85,20 @@ export class DocumentsController {
     return this.documentsService.findAllForOrg(userId as string, orgId);
   }
 
+  @Get(':fileId')
+  getSingleDocument(
+    @Req() req: Request & { user: { id?: string; sub?: string } },
+    @Param('fileId', new ParseUUIDPipe()) fileId: string,
+    @Query('orgId', new ParseUUIDPipe()) orgId: string,
+  ) {
+    const userId = req.user?.id ?? req.user?.sub;
+    return this.documentsService.findDocByIdAndOrgId(
+      userId as string,
+      orgId,
+      fileId,
+    );
+  }
+
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete('delete/:id/:orgId')
   deleteDocument(
