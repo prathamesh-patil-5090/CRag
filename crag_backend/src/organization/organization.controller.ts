@@ -19,6 +19,7 @@ import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { UpdateOrganizationDto } from './dto/update-organization.dto';
 import { Organization } from './entities/organization.entity';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { OrganizationService } from './organization.service';
 
 @Controller('organization')
@@ -52,16 +53,19 @@ export class OrganizationController {
     return { access_token, refresh_token };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll(@Paginate() query: PaginateQuery) {
     return this.organizationService.findAll(query);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.organizationService.findOne(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -70,6 +74,7 @@ export class OrganizationController {
     return this.organizationService.update(id, updateOrganizationDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.organizationService.remove(id);
