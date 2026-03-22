@@ -1,4 +1,5 @@
 import { ConflictException, Injectable } from '@nestjs/common';
+import { paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -84,8 +85,11 @@ export class OrganizationService {
     );
   }
 
-  findAll() {
-    return this.repo.find();
+  findAll(query: PaginateQuery): Promise<Paginated<Organization>> {
+    return paginate(query, this.repo, {
+      sortableColumns: ['orgName', 'orgMail'],
+      defaultSortBy: [['orgName', 'ASC']],
+    });
   }
 
   findOne(id: string) {

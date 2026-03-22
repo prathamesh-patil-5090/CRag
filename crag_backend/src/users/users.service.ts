@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,8 +18,11 @@ export class UsersService {
     return this.repo.save(user);
   }
 
-  findAll(): Promise<User[]> {
-    return this.repo.find();
+  findAll(query: PaginateQuery): Promise<Paginated<User>> {
+    return paginate(query, this.repo, {
+      sortableColumns: ['id', 'username', 'email', 'createdAt'],
+      defaultSortBy: [['createdAt', 'DESC']],
+    });
   }
 
   findOne(id: string): Promise<User | null> {

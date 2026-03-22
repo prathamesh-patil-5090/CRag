@@ -7,6 +7,8 @@ import {
   Patch,
   UseGuards,
 } from '@nestjs/common';
+import { Paginate, Paginated } from 'nestjs-paginate';
+import type { PaginateQuery } from 'nestjs-paginate';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -18,8 +20,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  findAll(): Promise<User[]> {
-    return this.usersService.findAll();
+  findAll(@Paginate() query: PaginateQuery): Promise<Paginated<User>> {
+    return this.usersService.findAll(query);
   }
 
   @Get(':id')
