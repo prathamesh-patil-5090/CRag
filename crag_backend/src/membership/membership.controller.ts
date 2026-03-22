@@ -11,6 +11,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import type { Request as ExpressRequest } from 'express';
+import type { PaginateQuery } from 'nestjs-paginate';
+import { Paginate } from 'nestjs-paginate';
 import { User } from 'src/users/entities/user.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from './decorator/roles.decorator';
@@ -54,8 +56,8 @@ export class MembershipController {
   }
 
   @Get()
-  findAll() {
-    return this.membershipService.findAll();
+  findAll(@Paginate() query: PaginateQuery) {
+    return this.membershipService.findAll(query);
   }
 
   @Get(':id')

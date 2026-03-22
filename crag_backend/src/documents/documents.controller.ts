@@ -18,6 +18,8 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 import { existsSync, mkdirSync } from 'fs';
 import { diskStorage, StorageEngine } from 'multer';
+import type { PaginateQuery } from 'nestjs-paginate';
+import { Paginate } from 'nestjs-paginate';
 import { extname, join } from 'path';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { DocumentsService } from './documents.service';
@@ -80,9 +82,10 @@ export class DocumentsController {
   listDocuments(
     @Req() req: Request & { user: { id?: string; sub?: string } },
     @Query('orgId', new ParseUUIDPipe()) orgId: string,
+    @Paginate() query: PaginateQuery,
   ) {
     const userId = req.user?.id ?? req.user?.sub;
-    return this.documentsService.findAllForOrg(userId as string, orgId);
+    return this.documentsService.findAllForOrg(userId as string, orgId, query);
   }
 
   @Get(':fileId')

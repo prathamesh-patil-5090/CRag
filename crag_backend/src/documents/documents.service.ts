@@ -17,6 +17,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bullmq';
 import * as fs from 'fs';
 import 'multer';
+import { paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
 import { S3_PROVIDER } from 'src/common/s3.provider';
 import { OrgRole } from 'src/membership/entities/membership.entity';
 import { MembershipService } from 'src/membership/membership.service';
@@ -140,12 +141,20 @@ export class DocumentsService {
     });
   }
 
-  async findAllForOrg(userId: string, orgId: string): Promise<Document[]> {
+  async findAllForOrg(
+    userId: string,
+    orgId: string,
+    query: PaginateQuery,
+  ): Promise<Paginated<Document>> {
     await this.assertMembership(userId, orgId);
 
-    return this.documentRepo.find({
-      where: { orgId, status: Not(DocumentStatus.DELETED) },
-      order: { createdAt: 'DESC' },
+    return paginate(query, this.documentRepo, {
+      sortableColumns: ['createdAt'],
+      defaultSortBy: [['createdAt', 'DESC']],
+      where: {
+        orgId,
+        status: Not(DocumentStatus.DELETED),
+      },
     });
   }
 

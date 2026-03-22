@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import appConfig, { AppConfig } from 'config/env';
+import { updateGlobalConfig } from 'nestjs-paginate';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -12,6 +13,12 @@ import { MembershipModule } from './membership/membership.module';
 import { OrganizationModule } from './organization/organization.module';
 import { QueueModule } from './queue/queue.module';
 import { UsersModule } from './users/users.module';
+
+updateGlobalConfig({
+  defaultOrigin: undefined,
+  defaultLimit: 5,
+  defaultMaxLimit: 100,
+});
 
 @Module({
   imports: [

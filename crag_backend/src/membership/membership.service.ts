@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AppConfig } from 'config/env';
+import { paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
 import {
   Memberships,
   OrgRole,
@@ -41,8 +42,11 @@ export class MembershipService {
     });
   }
 
-  findAll() {
-    return this.repo.find();
+  findAll(query: PaginateQuery): Promise<Paginated<Memberships>> {
+    return paginate(query, this.repo, {
+      sortableColumns: ['createdAt'],
+      defaultSortBy: [['createdAt', 'DESC']],
+    });
   }
 
   findByOrgId(orgId: string) {

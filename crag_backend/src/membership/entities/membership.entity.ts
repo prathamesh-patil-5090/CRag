@@ -1,6 +1,13 @@
 import { Organization } from 'src/organization/entities/organization.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export enum OrgRole {
   OWNER = 'OWNER',
@@ -29,4 +36,10 @@ export class Memberships {
     default: OrgRole.MEMBER,
   })
   role: OrgRole;
+
+  @CreateDateColumn()
+  createdAt: string;
+
+  @UpdateDateColumn()
+  updatedAt: string;
 }
