@@ -54,7 +54,7 @@ export class DocumentsService {
     return id;
   }
 
-  private async assertMembership(userId: string, orgId: string): Promise<void> {
+  async assertMembership(userId: string, orgId: string): Promise<void> {
     const membership = await this.membershipService.findByUserIdAndOrgId(
       userId,
       orgId,

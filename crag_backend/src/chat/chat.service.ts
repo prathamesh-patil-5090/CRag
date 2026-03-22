@@ -1,4 +1,5 @@
 import {
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -8,6 +9,8 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 import { Db, MongoClient } from 'mongodb';
+import { paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
+import { MembershipService } from 'src/membership/membership.service';
 import { Repository } from 'typeorm';
 import { Document } from '../documents/entities/document.entity';
 import { ChatMessage } from './dto/chat-message.entity';
@@ -30,6 +33,7 @@ export class ChatService implements OnModuleInit {
     private readonly configService: ConfigService,
     @InjectRepository(Document)
     private readonly documentRepository: Repository<Document>,
+    private readonly membershipService: MembershipService,
   ) {
     this.openRouterApiKey =
       this.configService.get<string>('OPENROUTER_API_KEY') ||
@@ -59,6 +63,33 @@ export class ChatService implements OnModuleInit {
 
     this.mongoDb = this.mongoClient.db();
     return this.mongoDb;
+  }
+
+  async previousConvoFromSession(
+    userId: string,
+    orgId: string,
+    sessionId: string,
+    query: PaginateQuery,
+  ): Promise<Paginated<ChatMessage> | undefined> {
+    const membership = await this.membershipService.findByUserIdAndOrgId(
+      userId,
+      orgId,
+    );
+    if (!membership) {
+      throw new ForbiddenException('You are not a member of this organization');
+    }
+
+    return paginate(query, this.messageRepository, {
+      sortableColumns: ['createdAt'],
+      defaultSortBy: [['createdAt', 'DESC']],
+      where: {
+        session: {
+          id: sessionId,
+          userId,
+          orgId,
+        },
+      },
+    });
   }
 
   async askQuestion(userId: string, dto: AskQuestionDto) {
@@ -180,8 +211,9 @@ export class ChatService implements OnModuleInit {
     const messages = [
       {
         role: 'system',
-        content: `You are a helpful assistant. Be concise in your responses if possible. Return ONLY one final answer. Do not repeat or restate the answer. Use the following context to answer the user's question. If you cannot find the answer in the context, state that you don't know based on the provided documents.\n\nContext:\n${context}`,
+        content: `You are a highly accurate and concise assistant. Answer using ONLY the provided context. If the answer cannot be found in the context, say exactly "I don't know.". Do not hallucinate or guess. Return ONLY one final answer.\n\nContext:\n${context}`,
       },
+
       {
         role: 'user',
         content: question,
@@ -318,7 +350,7 @@ export class ChatService implements OnModuleInit {
         const fallback = await fallbackResponse.json();
 
         return {
-          answer: fallback.choices[0].message.contenat,
+          answer: fallback.choices[0].message.content,
           confidence,
           sources: sources,
           modelUsed: 'meta-llama/llama-3.2-3b-instruct:free',
