@@ -47,9 +47,13 @@ export class ChatService implements OnModuleInit {
 
   async onModuleInit() {
     try {
-      await this.getMongoDb();
+      const db = await this.getMongoDb();
+      await db.collection('document_embeddings').createIndex({ text: 'text' });
     } catch (error) {
-      console.error('Failed to connect to MongoDB on startup:', error);
+      console.error(
+        'Failed to connect to MongoDB or create index on startup:',
+        error,
+      );
     }
   }
 
@@ -63,6 +67,44 @@ export class ChatService implements OnModuleInit {
 
     this.mongoDb = this.mongoClient.db();
     return this.mongoDb;
+  }
+
+  /**
+   * Helper function to perform Reciprocal Rank Fusion (RRF)
+   */
+  private applyRRF(vectorResults: any[], keywordResults: any[], k = 60) {
+    const scores = new Map<string, { score: number; item: any }>();
+
+    // Process vector search results
+    vectorResults.forEach((item, index) => {
+      const rank = index + 1;
+      const rrfScore = 1 / (k + rank);
+      scores.set(item._id.toString(), { score: rrfScore, item });
+    });
+
+    // Process keyword search results
+    keywordResults.forEach((item, index) => {
+      const rank = index + 1;
+      const rrfScore = 1 / (k + rank);
+
+      if (scores.has(item._id.toString())) {
+        const existing = scores.get(item._id.toString());
+        if (existing) {
+          existing.score += rrfScore;
+        }
+      } else {
+        scores.set(item._id.toString(), { score: rrfScore, item });
+      }
+    });
+
+    // Sort by combined RRF score descending
+    return Array.from(scores.values())
+      .sort((a, b) => b.score - a.score)
+      .map((entry) => ({
+        ...entry.item,
+        hybridScore: entry.score,
+        score: entry.score, // Keep score field for existing logic
+      }));
   }
 
   async previousConvoFromSession(
@@ -174,36 +216,59 @@ export class ChatService implements OnModuleInit {
     const db = await this.getMongoDb();
     const collection = db.collection('document_embeddings');
 
-    const searchResults = await collection
-      .aggregate([
-        {
-          $vectorSearch: {
-            index: 'vector_index',
-            path: 'embedding',
-            queryVector: embedding,
-            numCandidates: 100,
-            limit: 2,
-            filter: { orgId: orgId },
+    const [vectorResults, keywordResults] = await Promise.all([
+      // Semantic Search (Vector)
+      collection
+        .aggregate([
+          {
+            $vectorSearch: {
+              index: 'vector_index',
+              path: 'embedding',
+              queryVector: embedding,
+              numCandidates: 100,
+              limit: 2,
+              filter: { orgId: orgId },
+            },
           },
-        },
-        {
-          $addFields: {
-            score: { $meta: 'vectorSearchScore' },
+          {
+            $project: {
+              _id: 1,
+              text: 1,
+              documentId: 1,
+              pageNumber: 1,
+              documentName: 1,
+              score: { $meta: 'vectorSearchScore' },
+            },
           },
-        },
-        {
-          $match: {
-            score: { $gt: 0.6 },
+        ])
+        .toArray(),
+
+      // Keyword Search (Text Index)
+      collection
+        .find(
+          {
+            $text: { $search: question },
+            orgId: orgId,
           },
-        },
-      ])
-      .toArray();
-    /*
-    console.log(
-      'Search Results with Scores:',
-      searchResults.map((r) => ({ doc: r.documentId, score: r.score })),
-    );
-    */
+          {
+            projection: {
+              _id: 1,
+              text: 1,
+              documentId: 1,
+              pageNumber: 1,
+              documentName: 1,
+              score: { $meta: 'textScore' },
+            },
+          },
+        )
+        .sort({ score: { $meta: 'textScore' } })
+        .limit(10)
+        .toArray(),
+    ]);
+
+    let searchResults = this.applyRRF(vectorResults, keywordResults);
+
+    searchResults = searchResults.slice(0, 5);
     const context = searchResults
       .map((row: any) => row.text)
       .join('\n\n---\n\n');
@@ -274,12 +339,15 @@ export class ChatService implements OnModuleInit {
       }
     }
     const sources = Array.from(uniqueDocs.values());
+    // Normalize RRF scores (which are very small decimals) to a 0.0 - 0.99 range
     const confidence =
       searchResults.length > 0
         ? Number(
             (
-              searchResults.reduce((acc, curr) => acc + (curr.score || 0), 0) /
-              searchResults.length
+              searchResults.reduce(
+                (acc, curr) => acc + Math.min((curr.score || 0) * 60, 0.99),
+                0,
+              ) / searchResults.length
             ).toFixed(2),
           )
         : 0;

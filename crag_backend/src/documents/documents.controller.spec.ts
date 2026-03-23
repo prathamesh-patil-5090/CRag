@@ -85,7 +85,11 @@ describe('DocumentsController', () => {
       const dto = { orgId: 'org-uuid-1' };
       const req = makeReq('user-uuid-1');
 
-      const result = await controller.uploadDocument(mockFile, dto, req);
+      const result = await controller.uploadDocument(
+        [mockFile] as any,
+        dto,
+        req,
+      );
 
       expect(uploadMock).toHaveBeenCalledWith(mockFile, req.user, dto);
       expect(result).toEqual(mockDocument);
@@ -99,7 +103,9 @@ describe('DocumentsController', () => {
       const req = makeReq('user-uuid-1');
       const orgId = 'org-uuid-1';
 
-      const result = await controller.listDocuments(req, orgId);
+      const result = await controller.listDocuments(req, orgId, {
+        path: '',
+      } as any);
 
       expect(findAllForOrgMock).toHaveBeenCalledWith(req.user, orgId);
       expect(result).toEqual([mockDocument]);
@@ -113,7 +119,7 @@ describe('DocumentsController', () => {
       const req = makeReq('user-uuid-1');
       const id = 'doc-uuid-1';
 
-      const result = await controller.deleteDocument(req, id);
+      const result = await controller.deleteDocument(id, req, 'test-org-id');
 
       expect(removeMock).toHaveBeenCalledWith(id, req.user);
       expect(result).toEqual({ message: 'Document deleted successfully' });

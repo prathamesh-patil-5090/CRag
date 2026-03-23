@@ -106,7 +106,7 @@ describe('DocumentsService', () => {
     const dto = { orgId: 'org-uuid-1' };
 
     it('should create a document record and enqueue a job', async () => {
-      const result = await service.upload(mockFile, user, dto);
+      const result = await service.upload([mockFile] as any, user, dto);
 
       expect(findByUserIdAndOrgIdMock).toHaveBeenCalledWith(
         'user-uuid-1',
@@ -126,13 +126,13 @@ describe('DocumentsService', () => {
     });
 
     it('should throw BadRequestException when no file is provided', async () => {
-      await expect(service.upload(undefined, user, dto)).rejects.toThrow(
+      await expect(service.upload(undefined as any, user, dto)).rejects.toThrow(
         BadRequestException,
       );
     });
 
     it('should throw ForbiddenException when user context is missing', async () => {
-      await expect(service.upload(mockFile, {}, dto)).rejects.toThrow(
+      await expect(service.upload([mockFile] as any, {}, dto)).rejects.toThrow(
         ForbiddenException,
       );
     });
@@ -140,9 +140,9 @@ describe('DocumentsService', () => {
     it('should throw ForbiddenException when user is not a member of the org', async () => {
       findByUserIdAndOrgIdMock.mockResolvedValueOnce(null);
 
-      await expect(service.upload(mockFile, user, dto)).rejects.toThrow(
-        ForbiddenException,
-      );
+      await expect(
+        service.upload([mockFile] as any, user, dto),
+      ).rejects.toThrow(ForbiddenException);
     });
   });
 
@@ -153,7 +153,9 @@ describe('DocumentsService', () => {
     const orgId = 'org-uuid-1';
 
     it('should return all documents belonging to the org', async () => {
-      const result = await service.findAllForOrg(user, orgId);
+      const result = await service.findAllForOrg(user.id, orgId, {
+        path: '',
+      } as any);
 
       expect(findByUserIdAndOrgIdMock).toHaveBeenCalledWith(
         'user-uuid-1',
@@ -167,17 +169,17 @@ describe('DocumentsService', () => {
     });
 
     it('should throw ForbiddenException when user context is missing', async () => {
-      await expect(service.findAllForOrg({}, orgId)).rejects.toThrow(
-        ForbiddenException,
-      );
+      await expect(
+        service.findAllForOrg(undefined as any, orgId, { path: '' } as any),
+      ).rejects.toThrow(ForbiddenException);
     });
 
     it('should throw ForbiddenException when user is not a member of the org', async () => {
       findByUserIdAndOrgIdMock.mockResolvedValueOnce(null);
 
-      await expect(service.findAllForOrg(user, orgId)).rejects.toThrow(
-        ForbiddenException,
-      );
+      await expect(
+        service.findAllForOrg(user.id, orgId, { path: '' } as any),
+      ).rejects.toThrow(ForbiddenException);
     });
   });
 
@@ -188,7 +190,7 @@ describe('DocumentsService', () => {
     const documentId = 'doc-uuid-1';
 
     it('should delete the document and return a success message', async () => {
-      const result = await service.remove(documentId, user);
+      const result = await service.remove(documentId, user, 'org-uuid-1');
 
       expect(findOneMock).toHaveBeenCalledWith({
         where: { id: documentId },
@@ -204,23 +206,23 @@ describe('DocumentsService', () => {
     it('should throw NotFoundException when document does not exist', async () => {
       findOneMock.mockResolvedValueOnce(null);
 
-      await expect(service.remove(documentId, user)).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(
+        service.remove(documentId, user, 'org-uuid-1'),
+      ).rejects.toThrow(NotFoundException);
     });
 
     it('should throw ForbiddenException when user context is missing', async () => {
-      await expect(service.remove(documentId, {})).rejects.toThrow(
-        ForbiddenException,
-      );
+      await expect(
+        service.remove(documentId, {}, 'org-uuid-1'),
+      ).rejects.toThrow(ForbiddenException);
     });
 
     it('should throw ForbiddenException when user is not a member of the org', async () => {
       findByUserIdAndOrgIdMock.mockResolvedValueOnce(null);
 
-      await expect(service.remove(documentId, user)).rejects.toThrow(
-        ForbiddenException,
-      );
+      await expect(
+        service.remove(documentId, user, 'org-uuid-1'),
+      ).rejects.toThrow(ForbiddenException);
     });
   });
 });
